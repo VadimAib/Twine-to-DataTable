@@ -183,6 +183,42 @@ Backups are only created when the file actually changes.
 | `*italic*` or `_italic_` | `<i>italic</>` |
 | `~~strikethrough~~` | `<s>strikethrough</>` |
 
+## Limitations
+
+The parser supports a subset of SugarCube 2.x features. The following are **not supported**:
+
+### Unsupported Macros
+
+- `<<else>>` and `<<elseif>>` — use separate `<<if>>` blocks instead
+- `<<for>>`, `<<while>>` — loops are not supported
+- `<<print>>`, `<<display>>`, `<<audio>>`, `<<video>>` — only `<<set>>`, `<<unset>>`, and `<<if>>` are supported
+- `<<widget>>`, `<<script>>` — custom macros and scripts are ignored
+- `<<remember>>` — persistent variables are not supported
+- Complex expressions in `<<if>>` with `and`, `or` — use simple conditions only (e.g., `<<if $var >= 5>>`)
+
+### Unsupported Syntax
+
+- Nested `<<if>>` blocks — the parser will stop with an error
+- Functions in `<<set>>` (e.g., `<<set $x to random(1, 10)>>`) — only simple values are supported
+- Arrays and objects in variables — only integers, floats, and booleans
+- Passage tags — tags in `.twee` files are ignored
+- Multiple `.twee` files in one run — process each file separately
+
+### Rich Text Limitations
+
+- Only basic formatting: `**bold**`, `*italic*`, `~~strikethrough~~`
+- No support for colors, fonts, or custom styles
+- No support for links within text (only `[[choices]]`)
+
+### Workarounds
+
+If you need unsupported features, consider:
+
+1. **Simplify your logic** — break complex conditions into multiple nodes
+2. **Use separate `<<if>>` blocks** instead of `<<else>>`/`<<elseif>>`
+3. **Pre-calculate values** in earlier nodes instead of using functions in `<<set>>`
+4. **Modify the parser** — the code is open-source, feel free to extend it
+
 ## Unreal Engine Integration
 
 ### Importing JSON into Unreal Engine
